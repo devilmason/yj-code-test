@@ -2,10 +2,11 @@ package com.wjc.codetest.product.model.request;
 
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Getter
-@Setter
+//@Setter
+@NoArgsConstructor
 public class GetProductListRequest {
 
     private String category;

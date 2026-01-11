@@ -29,11 +29,11 @@ public class Product {
     private Long id;
 
     // nullable false 추가
-    @Column(name = "category")
+    @Column(name = "category", nullable = false)
     private String category;
 
     // nullable false 추가
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
     // 등록-수정자, 등록일시-수정일시 컬럼 추가
