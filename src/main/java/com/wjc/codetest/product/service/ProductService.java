@@ -36,7 +36,7 @@ public class ProductService {
     // DB 데이터 변경이 있으므로 @Transactional 선언
     @Transactional
     public Product create(CreateProductRequest dto) {
-        // 엔티티에 등록 수정 정보 추가로 인한 생성자 변경
+        // 엔티티에 등록 수정 정보 추가로 인한 생성자 변경, 실제 구현시 system이 아닌 로그인한 사용자 아이디를 입력
         Product product = new Product(dto.getCategory(), dto.getName(), "system");
         return productRepository.save(product);
     }
@@ -56,6 +56,7 @@ public class ProductService {
     public Product update(UpdateProductRequest dto) {
         // dirty checking 이용하여 소스 단순화
         Product product = getProductById(dto.getId());
+        // 실제 구현시 system이 아닌 로그인한 사용자 아이디를 입력
         product.update(dto.getCategory(), dto.getName(), "system");
         return product;
 //        Product product = getProductById(dto.getId());
@@ -67,8 +68,11 @@ public class ProductService {
 
     @Transactional
     public void deleteById(Long productId) {
-        // 불필요한 조회 제거
-        //Product product = getProductById(productId);
+        // Product product = getProductById(productId);
+        // 존재 여부만 확인
+        if (!productRepository.existsById(productId)) {
+            throw new ProductNotFoundException(productId);
+        }
         // 아이디로만 삭제
         productRepository.deleteById(productId);
     }
