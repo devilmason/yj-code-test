@@ -5,6 +5,7 @@ import com.wjc.codetest.product.model.request.GetProductListRequest;
 import com.wjc.codetest.product.model.domain.Product;
 import com.wjc.codetest.product.model.request.UpdateProductRequest;
 import com.wjc.codetest.product.model.response.ProductListResponse;
+import com.wjc.codetest.product.model.response.ProductResponse;
 import com.wjc.codetest.product.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -34,17 +35,17 @@ public class ProductController {
     // @GetMapping(value = "/get/product/by/{productId}")
     // url 수정
     @GetMapping(value = "/product/{productId}")
-    public ResponseEntity<Product> getProductById(@PathVariable(name = "productId") Long productId){
+    public ResponseEntity<ProductResponse> getProductById(@PathVariable(name = "productId") Long productId){
         Product product = productService.getProductById(productId);
-        return ResponseEntity.ok(product);
+        return ResponseEntity.ok(ProductResponse.from(product));
     }
 
     // @PostMapping(value = "/create/product")
     // url 수정
     @PostMapping(value = "/product")
-    public ResponseEntity<Product> createProduct(@Valid @RequestBody CreateProductRequest dto){
+    public ResponseEntity<ProductResponse> createProduct(@Valid @RequestBody CreateProductRequest dto){
         Product product = productService.create(dto);
-        return ResponseEntity.ok(product);
+        return ResponseEntity.ok(ProductResponse.from(product));
     }
 
     // @PostMapping(value = "/delete/product/{productId}")
@@ -58,9 +59,9 @@ public class ProductController {
     // @PostMapping(value = "/update/product")
     // 어노테이션 수정, url 수정
     @PutMapping(value = "/product")
-    public ResponseEntity<Product> updateProduct(@Valid @RequestBody UpdateProductRequest dto){
+    public ResponseEntity<ProductResponse> updateProduct(@Valid @RequestBody UpdateProductRequest dto){
         Product product = productService.update(dto);
-        return ResponseEntity.ok(product);
+        return ResponseEntity.ok(ProductResponse.from(product));
     }
 
     // 리스트 검색의 기능이 들어가야되는 것 같은데 function 명도 아래와 겹치고 기능도 모호함
@@ -76,7 +77,8 @@ public class ProductController {
         //   Page<Product> productList = productService.getListByCategory(dto);
         // service member function 명도 변경
         Page<Product> productList = productService.searchProductList(dto);
-        return ResponseEntity.ok(new ProductListResponse(productList.getContent(), productList.getTotalPages(), productList.getTotalElements(), productList.getNumber()));
+        List<ProductResponse> response = productList.stream().map(ProductResponse::from).toList();
+        return ResponseEntity.ok(new ProductListResponse(response, productList.getTotalPages(), productList.getTotalElements(), productList.getNumber()));
     }
 
     @GetMapping(value = "/product/category/list")

@@ -1,6 +1,5 @@
 package com.wjc.codetest.product.model.response;
 
-import com.wjc.codetest.product.model.domain.Product;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,12 +16,12 @@ import java.util.List;
 @Getter
 @Setter
 public class ProductListResponse {
-    private List<Product> products;
+    private List<ProductResponse> products;
     private int totalPages;
     private long totalElements;
     private int page;
 
-    public ProductListResponse(List<Product> content, int totalPages, long totalElements, int number) {
+    public ProductListResponse(List<ProductResponse> content, int totalPages, long totalElements, int number) {
         this.products = content;
         this.totalPages = totalPages;
         this.totalElements = totalElements;
