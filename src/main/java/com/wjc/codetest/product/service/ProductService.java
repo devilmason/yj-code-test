@@ -83,7 +83,7 @@ public class ProductService {
         // 정렬기준, 정렬방향도 클라이언트에서 받는걸로 변경
         PageRequest pageRequest = PageRequest.of(dto.getPage(), dto.getSize(),
                 Sort.by("ASC".equals(dto.getSortDirection()) ? Sort.Direction.ASC : Sort.Direction.DESC,
-                        "".equals(dto.getOrderBy()) ? "id" : dto.getOrderBy()));
+                        dto.getOrderBy()));
         // 카테고리 값이 없으면 전체 정렬
         if(dto.getCategory() == null || dto.getCategory().isEmpty()) {
             return productRepository.findAll(pageRequest);

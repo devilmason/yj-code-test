@@ -1,6 +1,5 @@
 package com.wjc.codetest.product.model.request;
 
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +8,6 @@ import lombok.Setter;
 @Setter
 public class GetProductListRequest {
 
-    @NotNull(message = "category is required")
     private String category;
 
     // order 기준, order 방향 추가
